@@ -1,5 +1,6 @@
 var img;
 var boxes = [];
+var bg = "#4D4D4D"
 
 function preload() {
     img = loadImage("./assets/politics.png");
@@ -8,10 +9,10 @@ function preload() {
 }
 
 function setup() {
-    createCanvas(900, 300);
+    createCanvas(windowWidth, windowHeight);
     colorMode(HSB, 100);
     createHashtag();
-    background("#4D4D4D");
+    background(bg);
     rectMode(CENTER);
     for (var i = 0; i < boxes.length; i++) {
         drawBox(boxes[i]);
@@ -20,7 +21,7 @@ function setup() {
 }
 
 function draw() {
-    background("#4D4D4D");
+    background(bg);
     rectMode(CENTER);
     for (var i = 0; i < boxes.length; i++) {
         moveBox(boxes[i]);
@@ -39,14 +40,16 @@ function mouseMoved() {
 }
 
 function createHashtag() {
-    img.resize(width, height);
-    for (var x = 10; x < width; x += 10) {
-        for (var y = 10; y < height; y += 10) {
+    w = 900
+    h = 300
+    img.resize(w, h);
+    for (var x = 10; x < w; x += 10) {
+        for (var y = 10; y < h; y += 10) {
             ox = x + random(-3, 3);
             oy = y + random(-3, 3);
 
             if (img.get(ox, oy)[0] < 10) {
-                boxes.push(createBox(ox, oy));
+                boxes.push(createBox(ox + width/2 - w/2, oy + height/2 - h/2));
             }
         }
     }
@@ -85,7 +88,7 @@ function moveBox(b) {
 }
 
 function drawBox(b) {
-    fill("#4D4D4D");
+    fill(bg);
     stroke(b.f);
     strokeWeight(constrain((b.h) * .1, 0, 10));
     rect(b.x, b.y, b.w, b.h);
