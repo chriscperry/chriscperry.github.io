@@ -56,14 +56,14 @@ function createHashtag() {
 }
 
 function bringForward(i) {
-    if (boxes[i].w > 200 && i < boxes.length - 2) {
+    if (boxes[i].w > 200 && i < boxes.length - 4) {
         boxes.push(boxes.splice(i, 1)[0]);
     }
 }
 
 function resizeBox(b) {
-    b.w2 = min(500, max(b.wh, 1 / dist(b.cx, b.cy, mouseX, mouseY) * 1000))
-    b.h2 = min(100, max(b.wh, 1 / dist(b.cx, b.cy, mouseX, mouseY) * 200))
+    b.w2 = min(400, max(b.wh, 1 / dist(b.cx, b.cy, mouseX, mouseY) * 1500))
+    b.h2 = min(80, max(b.wh, 1 / dist(b.cx, b.cy, mouseX, mouseY) * 300))
 }
 
 function pushBox(b) {
@@ -92,9 +92,9 @@ function drawBox(b) {
     stroke(b.f);
     strokeWeight(constrain((b.h) * .1, 0, 10));
     rect(b.x, b.y, b.w, b.h);
-    if (b.md < 100) {
+    if (b.md < 60) {
         fill(100);
-        textSize(b.h / 4);
+        textSize(b.h * .2);
         noStroke();
         text(b.txt, b.x, b.y, b.w * .9, b.h * .8);
     }
