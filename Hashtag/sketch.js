@@ -51,10 +51,10 @@ function mousePressed() {
 
 function createHashtag() {
     //w = img[state].width;
-    h = 250;
+    w = 1000;
     i = 0;
-    img[state].resize(0, h);
-    w = img[state].width;
+    img[state].resize(w, 0);
+    h = img[state].height;
     for (var x = 10; x < w; x += 15) {
         for (var y = 10; y < h; y += 15) {
             ox = x + random(-3, 3); // + width / 2 - w / 2;
