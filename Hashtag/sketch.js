@@ -57,7 +57,7 @@ function draw() {
         resizeBox(boxes[i]);
         bringForward(i);
     }
-    if (millis() < 18000) {
+    if (mouseClicks < 4) {
         drawTitles()
     }
 }
