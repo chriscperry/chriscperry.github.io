@@ -1,12 +1,16 @@
 var img = [];
 var boxes = [];
 var bg = "#003080" //"#4D4D4D"
+var bgs = ["#E93F55", "#E4571E"];
 var fillColor = ["#E93F55", "#E4571E", "#193441", "#3E1F98", "#D1DBBD"]
 var strokeColor = ["#3E1F98", "#FFFFFF", "#D1DBBD", "#E93F55", "#E4571E"]
 var tweets = []
 var state = 0;
 var startTime = 0;
 var title = [];
+var desY = 0,
+    txtY = 0;
+var mouseClicks = 0;
 // AmericaFirst - 25 MAGA- 50 TrumpTrain - 131 AuditTheVote - 49 Hillary - 24
 
 
@@ -16,7 +20,21 @@ function preload() {
     img = [loadImage("./assets/AmericaFirst.png"), loadImage("./assets/AuditTheVote.png"), loadImage("./assets/Hillary.png"), loadImage("./assets/MAGA.png"), loadImage("./assets/TrumpTrain.png")];
 
 }
+//bg
+//cc = lerpColor(bgs[0], bgs[1], constrain(frameCount*.002, 0, 1))
+//background(cc);
 
+/*txt
+push();
+txtY = 0;
+txtY = -height;
+translate(0, txtY);
+text("s", width*.5, height*.5);
+text("s", width*.5, height*.5 + height);
+text("s", width*.5, height*.5  + height*2);
+text("s", width*.5, height*.5  + height*3);
+pop();
+*/
 function setup() {
     startTime = millis();
     println("done")
@@ -45,40 +63,41 @@ function draw() {
 }
 
 function drawTitles() {
-    if (millis() < 6000) {
-        drawTitle(0)
-    } else if (millis() < 12000) {
-        drawTitle(1)
-    } else {
-        drawTitle(2)
-    }
+    txtY += .05 * (desY - txtY);
+    push();
+    noStroke();
+    translate(0, txtY);
+    rectMode(CENTER)
+    textAlign(CENTER);
+    drawTitle(0, width * .5, height * .5);
+    drawTitle(1, width * .5, height * .5 + height);
+    drawTitle(2, width * .5, height * .5 + height * 2);
+    pop();
 }
 
-function drawTitle(n) {
-    background(fillColor[n]);
-    textAlign(CENTER);
-    textFont("Helvetica");
+function drawTitle(i, x, y) {
+    rect(fillColor[i],x,y,width,height);
+    textFont("Times");
     textSize(40);
-    fill(strokeColor[n])
-    text(title[n].t, width / 2, height / 2 - 100)
+    fill(255);
+    text(title[i], x, y - 50);
 }
 
 function setupTitles() {
     t1 = "After the presidential election\non Tuesday, November 8 in 2016,\nthe internet was in an uproar. "
     t2 = "Everyone has an opinion, but the internet\nrewards only strong opinions. Ones that divide us\ninstead of allowing us to start a conversation."
     t3 = "This is what twitter had to say\nabout the election in the weeks that followed."
-    title = [createTitle(t1), createTitle(t2), createTitle(t3)]
-}
-
-function createTitle(t) {
-    return {
-        t: t,
-        o: 0,
-    }
+    title = [t1, t2, t3];
 }
 
 function mousePressed() {
-    rewriteHashtag();
+    mouseClicks++
+    if (mouseClicks > 3) {
+        rewriteHashtag();
+    } else {
+        desY -= height;
+    }
+
 
     // for (var i = 0; i < boxes.length; i++){
     //     pushBox(boxes[i]);
