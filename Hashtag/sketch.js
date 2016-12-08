@@ -2,8 +2,8 @@ var img = [];
 var boxes = [];
 var bg = "#003080" //"#4D4D4D"
 var bgs = ["#E93F55", "#E4571E"];
-var fillColor = ["#E93F55", "#E4571E", "#193441", "#3E1F98", "#D1DBBD"]
-var strokeColor = ["#3E1F98", "#FFFFFF", "#D1DBBD", "#E93F55", "#E4571E"]
+var fillColor = ["#E93F55", "#E4571E", "#122285", "#6B61FF", "#D1DBBD"]
+var strokeColor = ["#3E1F98", "#FFFFFF", "#FFCBB3", "#AD2525", "#E4571E"]
 var tweets = []
 var state = 0;
 var startTime = 0;
@@ -36,7 +36,6 @@ text("s", width*.5, height*.5  + height*3);
 pop();
 */
 function setup() {
-    startTime = millis();
     println("done")
     println("setting up canvas")
     createCanvas(windowWidth, windowHeight);
