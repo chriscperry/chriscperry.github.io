@@ -1,36 +1,36 @@
 var img = [];
 var boxes = [];
 var bg = "#003080" //"#4D4D4D"
+var fillColor = ["#E93F55", "#E4571E", "#193441", "#3E1F98", "#D1DBBD"]
+var strokeColor = ["#3E1F98", "#FFFFFF", "#D1DBBD", "#E93F55", "#E4571E"]
 var tweets = []
-state = 0;
+var state = 0;
+var startTime = 0;
+var title = [];
 // AmericaFirst - 25 MAGA- 50 TrumpTrain - 131 AuditTheVote - 49 Hillary - 24
 
 
 
 function preload() {
     println("loading images")
-    img = [loadImage("./assets/AmericaFirst.png"),loadImage("./assets/AuditTheVote.png"),loadImage("./assets/Hillary.png"),loadImage("./assets/MAGA.png"),loadImage("./assets/TrumpTrain.png")];
+    img = [loadImage("./assets/AmericaFirst.png"), loadImage("./assets/AuditTheVote.png"), loadImage("./assets/Hillary.png"), loadImage("./assets/MAGA.png"), loadImage("./assets/TrumpTrain.png")];
 
 }
 
 function setup() {
+    startTime = millis();
     println("done")
     println("setting up canvas")
     createCanvas(windowWidth, windowHeight);
     colorMode(HSB, 100);
     println("done")
+    setupTitles();
     getTweets();
     createHashtag();
-    background(bg);
-    rectMode(CENTER);
-    for (var i = 0; i < boxes.length; i++) {
-        drawBox(boxes[i]);
-    }
-    println(boxes.length);
 }
 
 function draw() {
-    background(bg);
+    background(fillColor[state % fillColor.length]);
     rectMode(CENTER);
     for (var i = 0; i < boxes.length; i++) {
         moveBox(boxes[i]);
@@ -38,6 +38,42 @@ function draw() {
         pushBox(boxes[i]);
         resizeBox(boxes[i]);
         bringForward(i);
+    }
+    if (millis() < 18000) {
+        drawTitles()
+    }
+}
+
+function drawTitles() {
+    if (millis() < 6000) {
+        drawTitle(0)
+    } else if (millis() < 12000) {
+        drawTitle(1)
+    } else {
+        drawTitle(2)
+    }
+}
+
+function drawTitle(n) {
+    background(fillColor[n]);
+    textAlign(CENTER);
+    textFont("Helvetica");
+    textSize(40);
+    fill(strokeColor[n])
+    text(title[n].t, width / 2, height / 2 - 100)
+}
+
+function setupTitles() {
+    t1 = "After the presidential election\non Tuesday, November 8 in 2016,\nthe internet was in an uproar. "
+    t2 = "Everyone has an opinion, but the internet\nrewards only strong opinions. Ones that divide us\ninstead of allowing us to start a conversation."
+    t3 = "This is what twitter had to say\nabout the election in the weeks that followed."
+    title = [createTitle(t1), createTitle(t2), createTitle(t3)]
+}
+
+function createTitle(t) {
+    return {
+        t: t,
+        o: 0,
     }
 }
 
@@ -60,12 +96,12 @@ function createHashtag() {
             ox = x + random(-3, 3); // + width / 2 - w / 2;
             oy = y + random(-3, 3); // + height / 2 - h / 2;
             t = tweets[state][i % tweets[state].length];
-            if (boxes[i] != null){
+            if (boxes[i] != null) {
                 oldx = boxes[i].x;
                 oldy = boxes[i].y;
             } else {
-                oldx = width/2;
-                oldy = height/3;
+                oldx = width / 2;
+                oldy = height / 3;
             }
 
             if (img[state].get(ox, oy)[0] < 10) {
@@ -115,13 +151,13 @@ function moveBox(b) {
 }
 
 function drawBox(b) {
-    fill(bg);
-    stroke(b.f);
-    strokeWeight(constrain((b.h) * .08, 0, 4));
+    fill(fillColor[state % fillColor.length]);
+    stroke(strokeColor[state % strokeColor.length]);
+    strokeWeight(constrain((b.h) * .03, 0, 4));
     rect(b.x, b.y, b.w, b.h);
     if (b.md < 60) {
-        fill(100);
         textSize(b.h * .2);
+        fill(strokeColor[state % strokeColor.length])
         noStroke();
         text(b.txt, b.x, b.y, b.w * .9, b.h * .8);
     }
@@ -144,8 +180,8 @@ function createBox(cx, cy, x, y, t) {
         h: wh, // height
         w2: wh,
         h2: wh,
-        f: color(100), //color(random(50, 100), 50, 100),
-        s: color(100), // stroke
+        //f: color(100), //color(random(50, 100), 50, 100),
+        //s: color(100), // stroke
         sw: .5,
         txt: t,
 
